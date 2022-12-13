@@ -1,0 +1,47 @@
+---
+version: '3.6'
+
+x-besu-def:
+  &besu-def
+  restart: "on-failure"
+  image: hyperledger/besu:${BESU_VERSION:-latest}
+  env_file:
+    - ./config/.env
+  entrypoint:
+    - /bin/bash
+    - -c
+    - |
+      
+      /opt/besu/bin/besu \
+      --config-file=/config/config.toml \
+      --nat-method=NONE \
+      --p2p-host="${P2P_HOST}" \
+      --p2p-port="${P2P_PORT}" \
+      --rpc-http-api=WEB3,ETH,NET,TRACE \
+      --rpc-ws-api=WEB3,ETH,NET,TRACE;
+
+services:
+  validator1:
+    << : *besu-def
+    network_mode: "host"
+    environment:
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=${NODE_NAME},service.version=${BESU_VERSION:-latest}
+    labels:
+      - "consensus=besu"
+    volumes:
+      - ./config/:/config
+      - ./node_file/keys:/opt/besu/keys
+      - ./node_file/tls:/opt/besu/tls
+      - ./node_file/tls/trusted:/opt/besu/tls/trusted
+      - ./node_file/logs:/tmp/besu
+      - ./node_file/data:/opt/besu/data
+  ethstats-client:
+    image: registry.camdx.gov.kh/camdl/ethstat-client:v1.0.0
+    container_name: ethstats-rpc-client
+    network_mode: "host"
+    volumes:
+      - ./app.json:/app/app.json
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

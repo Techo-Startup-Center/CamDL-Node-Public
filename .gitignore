@@ -1,0 +1,11 @@
+/besu
+/nodekey
+./besu.tar.gz
+/data
+/logs
+/.node_files/data
+/.node_files/logs
+/.node_files
+/tls/
+/node_files
+/node_file

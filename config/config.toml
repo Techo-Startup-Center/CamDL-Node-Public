@@ -1,0 +1,43 @@
+
+genesis-file="/config/genesis.json"
+node-private-key-file="/opt/besu/keys/nodekey"
+logging="INFO"
+data-path="/opt/besu/data"
+host-allowlist=["*"]
+min-gas-price=1337000000000
+
+# rpc
+rpc-http-enabled=true
+rpc-http-host="0.0.0.0"
+rpc-http-port=8545
+rpc-http-cors-origins=["*"]
+rpc-http-max-active-connections=150
+
+# ws
+rpc-ws-enabled=true
+rpc-ws-host="0.0.0.0"
+rpc-ws-port=8546
+rpc-ws-max-active-connections=150
+rpc-ws-max-frame-size=1048576
+
+# permissions
+permissions-accounts-contract-enabled=true
+permissions-accounts-contract-address="0xc4Ae0f95b28Bc4041BeBbd39B7B0b716C77282A1"
+
+# bootnodes
+bootnodes=[
+"enode://1e3ea9069de321ded68eb52c68d35b16717c28d33d3fd53b6baaf879271d5224d2ba61c0ce49222ecae10955811faa4ad7fa7145e712d22a2f45730489475b7e@110.74.196.75:30301",
+"enode://6c07e884de99daaa7768b8bddeea2a3dc48bafe90fee3d5040fa5972776ff042d8e5564936fb3cf2953f86a4f6ffa9bc5489d2c42af9a6c63f252c41298f2867@103.118.47.131:30301",
+]
+
+# Discovery at boot is set to a list of static files, but will also discover new nodes should they be added
+# static nodes
+static-nodes-file="/config/static-nodes.json"
+discovery-enabled=true
+
+# Transaction Pool
+tx-pool-max-size="20000"
+tx-pool-retention-hours=1
+
+#revert reason
+revert-reason-enabled=true
